@@ -1,23 +1,14 @@
-package dev.breje.fdasimpleclient.model.response;
+package dev.breje.fdasimpleclient.model.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product extends SimpleProduct {
 
-    private String productNumber;
     private String brandName;
     private List<ActiveIngredient> activeIngredients = new ArrayList<>();
     private String route;
     private String marketingStatus;
-
-    public String getProductNumber() {
-        return productNumber;
-    }
-
-    public void setProductNumber(String productNumber) {
-        this.productNumber = productNumber;
-    }
 
     public String getBrandName() {
         return brandName;

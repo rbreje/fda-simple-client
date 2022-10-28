@@ -1,4 +1,4 @@
-package dev.breje.fdasimpleclient.model.response;
+package dev.breje.fdasimpleclient.model.helper;
 
 public class ActiveIngredient {
 

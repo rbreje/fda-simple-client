@@ -1,6 +1,7 @@
-package dev.breje.fdasimpleclient.model.openfda.response;
+package dev.breje.fdasimpleclient.model.response.openfda;
 
 import com.google.gson.annotations.SerializedName;
+import dev.breje.fdasimpleclient.model.helper.ActiveIngredient;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class OpenFdaProduct {
     private String brandName;
 
     @SerializedName("active_ingredients")
-    private List<OpenFdaActiveIngredient> activeIngredients;
+    private List<ActiveIngredient> activeIngredients;
 
     @SerializedName("reference_standard")
     private String referenceStandard;
@@ -44,7 +45,7 @@ public class OpenFdaProduct {
         return brandName;
     }
 
-    public List<OpenFdaActiveIngredient> getActiveIngredients() {
+    public List<ActiveIngredient> getActiveIngredients() {
         return activeIngredients;
     }
 

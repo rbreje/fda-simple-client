@@ -1,9 +1,9 @@
 package dev.breje.fdasimpleclient.controller;
 
 import com.google.gson.Gson;
-import dev.breje.fdasimpleclient.model.ResponseConverter;
-import dev.breje.fdasimpleclient.model.openfda.response.OpenFdaApiResponse;
-import dev.breje.fdasimpleclient.model.request.SearchCriteria;
+import dev.breje.fdasimpleclient.model.response.DomainObjectsConverter;
+import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaApiResponse;
+import dev.breje.fdasimpleclient.model.request.SearchCriteriaRequestBody;
 import dev.breje.fdasimpleclient.model.response.ApiResponse;
 import dev.breje.fdasimpleclient.service.PaginationService;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +30,7 @@ public class OpenFdaDrugRecordsController {
     private PaginationService paginationService;
 
     @RequestMapping(value = "/records", method = RequestMethod.GET)
-    public ResponseEntity<ApiResponse> getDrugRecord(@RequestBody SearchCriteria searchCriteria, @RequestParam(required = false, defaultValue = "0") String skip) {
+    public ResponseEntity<ApiResponse> getDrugRecord(@RequestBody SearchCriteriaRequestBody searchCriteria, @RequestParam(required = false, defaultValue = "0") String skip) {
         String searchCondition = getSanitizedSearchCondition(searchCriteria);
         String unparsedResponse = webClient.get()
                                            .uri(uriBuilder -> uriBuilder.queryParam("search", searchCondition)
@@ -49,7 +49,7 @@ public class OpenFdaDrugRecordsController {
         return new ResponseEntity<>(result, new HttpHeaders(), HttpStatus.OK);
     }
 
-    private String getSanitizedSearchCondition(SearchCriteria searchCriteria) {
+    private String getSanitizedSearchCondition(SearchCriteriaRequestBody searchCriteria) {
         StringBuilder sb = new StringBuilder();
         sb.append("submissions.submission_status:\"")
           .append(searchCriteria.getSubmissionStatus())
@@ -66,7 +66,7 @@ public class OpenFdaDrugRecordsController {
     }
 
     private ApiResponse parseResponse(OpenFdaApiResponse unparsedResponse, String skip) {
-        ApiResponse response = ResponseConverter.fromOpenFdaApiResponse(unparsedResponse);
+        ApiResponse response = DomainObjectsConverter.fromOpenFdaApiResponse(unparsedResponse);
         if (response.isSuccess()) {
             response.setNextPage(paginationService.getNextPage("/api/openfda/records", skip, unparsedResponse.getTotalOccurrences()));
         }

@@ -1,4 +1,4 @@
-package dev.breje.fdasimpleclient.model.openfda.response;
+package dev.breje.fdasimpleclient.model.response.openfda;
 
 import java.util.List;
 import java.util.Objects;

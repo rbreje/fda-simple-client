@@ -1,5 +1,7 @@
 package dev.breje.fdasimpleclient.model.response;
 
+import dev.breje.fdasimpleclient.model.helper.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 

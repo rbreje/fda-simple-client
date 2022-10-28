@@ -1,11 +1,13 @@
 package dev.breje.fdasimpleclient.model.request;
 
-public class SearchCriteria {
+public class SearchCriteriaRequestBody {
 
+    // TODO add validation for nullity
     private String manufacturerName;
 
     private String brandName;
 
+    // TODO add validation for two values: AP & TA
     private String submissionStatus;
 
     public String getManufacturerName() {

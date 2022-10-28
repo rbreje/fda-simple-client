@@ -1,6 +1,7 @@
 package dev.breje.fdasimpleclient.config;
 
 import com.google.gson.Gson;
+import dev.breje.fdasimpleclient.model.DomainObjectsFactory;
 import dev.breje.fdasimpleclient.service.PaginationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,5 +32,10 @@ public class AppConfig {
     @Bean
     public PaginationService getPaginationService() {
         return new PaginationService();
+    }
+
+    @Bean
+    public DomainObjectsFactory getDomainObjectsFactory() {
+        return new DomainObjectsFactory();
     }
 }
