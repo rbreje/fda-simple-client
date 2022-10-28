@@ -1,4 +1,4 @@
-package dev.breje.fdasimpleclient.models.requests;
+package dev.breje.fdasimpleclient.model.request;
 
 public class SearchCriteria {
 
@@ -6,10 +6,7 @@ public class SearchCriteria {
 
     private String brandName;
 
-    public SearchCriteria(String manufacturerName, String brandName) {
-        this.manufacturerName = manufacturerName;
-        this.brandName = brandName;
-    }
+    private String submissionStatus;
 
     public String getManufacturerName() {
         return manufacturerName;
@@ -25,5 +22,13 @@ public class SearchCriteria {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public void setSubmissionStatus(String submissionStatus) {
+        this.submissionStatus = submissionStatus;
     }
 }

@@ -1,5 +1,7 @@
 package dev.breje.fdasimpleclient.config;
 
+import com.google.gson.Gson;
+import dev.breje.fdasimpleclient.service.PaginationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +21,15 @@ public class AppConfig {
                         .baseUrl(openFdaUrl)
                         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .build();
+    }
+
+    @Bean
+    public Gson getGson() {
+        return new Gson();
+    }
+
+    @Bean
+    public PaginationService getPaginationService() {
+        return new PaginationService();
     }
 }
