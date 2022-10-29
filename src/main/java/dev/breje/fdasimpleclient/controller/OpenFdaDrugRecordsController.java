@@ -1,11 +1,14 @@
 package dev.breje.fdasimpleclient.controller;
 
 import com.google.gson.Gson;
-import dev.breje.fdasimpleclient.model.response.DomainObjectsConverter;
-import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaApiResponse;
+import dev.breje.fdasimpleclient.exceptions.RequestValidationException;
+import dev.breje.fdasimpleclient.model.DomainObjectsFactory;
 import dev.breje.fdasimpleclient.model.request.SearchCriteriaRequestBody;
 import dev.breje.fdasimpleclient.model.response.ApiResponse;
+import dev.breje.fdasimpleclient.model.response.DomainObjectsConverter;
+import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaApiResponse;
 import dev.breje.fdasimpleclient.service.PaginationService;
+import dev.breje.fdasimpleclient.service.SearchCriteriaRequestBodyValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,8 +32,20 @@ public class OpenFdaDrugRecordsController {
     @Autowired
     private PaginationService paginationService;
 
+    @Autowired
+    private SearchCriteriaRequestBodyValidator searchCriteriaRequestBodyValidator;
+
+    @Autowired
+    private DomainObjectsFactory domainObjectsFactory;
+
     @RequestMapping(value = "/records", method = RequestMethod.GET)
     public ResponseEntity<ApiResponse> getDrugRecord(@RequestBody SearchCriteriaRequestBody searchCriteria, @RequestParam(required = false, defaultValue = "0") String skip) {
+        try {
+            searchCriteriaRequestBodyValidator.validate(searchCriteria);
+        } catch (RequestValidationException e) {
+            return new ResponseEntity<>(domainObjectsFactory.createApiResponseFromError(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
         String searchCondition = getSanitizedSearchCondition(searchCriteria);
         String unparsedResponse = webClient.get()
                                            .uri(uriBuilder -> uriBuilder.queryParam("search", searchCondition)

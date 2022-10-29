@@ -5,16 +5,55 @@ import dev.breje.fdasimpleclient.model.entity.ProductEntity;
 import dev.breje.fdasimpleclient.model.entity.ProductsOfDrugRecordEntity;
 import dev.breje.fdasimpleclient.model.helper.Product;
 import dev.breje.fdasimpleclient.model.helper.SimpleProduct;
+import dev.breje.fdasimpleclient.model.request.DrugRecordRequestBody;
 import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaApiResponse;
 import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaProduct;
 import dev.breje.fdasimpleclient.model.response.openfda.OpenFdaResult;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class DomainObjectsConverter {
+
+    public static DrugRecordDto fromDrugRecordRequestBody(DrugRecordRequestBody drugRecordRequestBody){
+        DrugRecordDto drugRecord = new DrugRecordDto();
+        drugRecord.setApplicationNumber(drugRecordRequestBody.getApplicationNumber());
+        drugRecord.setManufacturerName(drugRecordRequestBody.getManufacturerName());
+        drugRecord.setSubstanceName(drugRecordRequestBody.getSubstanceName());
+        drugRecord.setProducts(drugRecordRequestBody.getProducts());
+        return drugRecord;
+    }
+
+    public static DrugRecordEntity fromDrugRecordDto(DrugRecordDto drugRecord) {
+        DrugRecordEntity drugRecordEntity = new DrugRecordEntity();
+        drugRecordEntity.setApplicationNumber(drugRecord.getApplicationNumber());
+        drugRecordEntity.setManufacturerName(drugRecord.getManufacturerName());
+        drugRecordEntity.setSubstanceName(drugRecord.getSubstanceName());
+        drugRecordEntity.setProducts(fromSimpleProducts(drugRecord.getProducts()));
+
+        drugRecordEntity.getProducts().forEach(prod -> prod.setRecord(drugRecordEntity));
+
+//        for (ProductsOfDrugRecordEntity productsOfDrugRecord : drugRecordEntity.getProducts()) {
+//            productsOfDrugRecord.setRecord(drugRecordEntity);
+//        }
+
+        return drugRecordEntity;
+    }
+
+    private static Set<ProductsOfDrugRecordEntity> fromSimpleProducts(List<SimpleProduct> simpleProducts) {
+        Set<ProductsOfDrugRecordEntity> productsOfDrugRecordEntities = new HashSet<>();
+        for (SimpleProduct simpleProduct : simpleProducts) {
+            productsOfDrugRecordEntities.add(fromSimpleProduct(simpleProduct));
+        }
+        return productsOfDrugRecordEntities;
+    }
+
+    private static ProductsOfDrugRecordEntity fromSimpleProduct(SimpleProduct simpleProduct) {
+        ProductsOfDrugRecordEntity productsOfDrugRecordEntity = new ProductsOfDrugRecordEntity();
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setNumber(simpleProduct.getProductNumber());
+        productsOfDrugRecordEntity.setProduct(productEntity);
+        return productsOfDrugRecordEntity;
+    }
 
     public static List<DrugRecordDto> fromDrugRecordEntities(List<DrugRecordEntity> drugRecordEntities) {
         List<DrugRecordDto> drugRecords = new ArrayList<>();

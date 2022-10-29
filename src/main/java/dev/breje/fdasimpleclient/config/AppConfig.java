@@ -3,6 +3,7 @@ package dev.breje.fdasimpleclient.config;
 import com.google.gson.Gson;
 import dev.breje.fdasimpleclient.model.DomainObjectsFactory;
 import dev.breje.fdasimpleclient.service.PaginationService;
+import dev.breje.fdasimpleclient.service.SearchCriteriaRequestBodyValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,5 +38,10 @@ public class AppConfig {
     @Bean
     public DomainObjectsFactory getDomainObjectsFactory() {
         return new DomainObjectsFactory();
+    }
+
+    @Bean
+    public SearchCriteriaRequestBodyValidator getSearchCriteriaRequestBodyValidator() {
+        return new SearchCriteriaRequestBodyValidator();
     }
 }
