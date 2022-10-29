@@ -8,6 +8,12 @@ I was looking for enhance and expand my technical knowledge by build something t
 
 ## How to Run the Application
 
+You just have to execute the following file: ```start.sh```. Please open it before and provide it with a valid JDK 11 location. You can run the command manually.
+
+```shell
+./gradlew bootRun -Dorg.gradle.java.home="/usr/lib/jvm/java-11-openjdk-amd64"
+```
+
 The default root URL is: ```http://localhost:8080```. You can switch the persistence of the application from ```application.properties```. 
 
 ## API Endpoints
